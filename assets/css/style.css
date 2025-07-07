@@ -1,52 +1,126 @@
-/* 🌙 Global Theme Defaults */
+/* ===============================
+   MerYunCyber – Custom Styles
+   ===============================
+*/
+
+/* Base - Genel geçerli stiller */
 body {
-  background-color: #000;
-  color: #fff;
-  font-family: 'Inter', 'Roboto', sans-serif;
-  line-height: 1.6;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
 }
 
-/* ✨ Animasyonlar */
+/* Animasyonlar */
 @keyframes fadeIn {
-  0%   { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 1s ease-out both;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-/* 🧲 Butonlar */
-.btn-primary {
-  background-color: #06b6d4; /* cyan-500 */
-  color: #000;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.3s ease;
+/* Scroll görünürlüğü */
+.fade-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.btn-primary:hover {
-  background-color: #0891b2; /* cyan-600 */
+.fade-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* 🖼️ Kartlar */
-.card {
-  background-color: #111827; /* neutral-900 */
-  border: 1px solid #374151; /* gray-700 */
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+/* Terminal görünümü */
+#ai-terminal {
+  background-color: #0a0a0a;
+  font-family: 'Courier New', monospace;
+  color: #00ff99;
+  font-size: 14px;
+  border-radius: 8px;
 }
 
-/* 🌀 Scrollbar (görsel detay) */
-::-webkit-scrollbar {
-  width: 10px;
+/* Proje kartları */
+.project-card {
+  background-color: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-::-webkit-scrollbar-thumb {
-  background: #06b6d4;
-  border-radius: 6px;
+
+.project-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
-::-webkit-scrollbar-track {
-  background: #1f2937;
+
+/* Karanlık modu geçişi */
+.dark-mode-toggle {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  color: #67e8f9;
+}
+
+/* Scroll butonu */
+#scroll-top-btn {
+  display: none;
+  transition: opacity 0.4s ease;
+}
+
+#scroll-top-btn.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Logo 3D efekti alanı */
+#three-logo {
+  width: 100%;
+  height: 300px;
+  background: #0f172a;
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px #22d3ee;
+}
+
+/* Yol haritası emojili alan */
+.timeline-step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.timeline-step .emoji {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.timeline-step .text {
+  font-size: 15px;
+  color: #d1d5db;
+}
+
+/* Kullanıcı yorum kartları */
+.quote-card {
+  background-color: #1e293b;
+  border-left: 4px solid #22d3ee;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-style: italic;
+}
+
+/* Link stilleri */
+a {
+  color: #67e8f9;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #22d3ee;
 }
