@@ -1,52 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>ŞifreMini | MerYunCyber</title>
-    <link rel="stylesheet" href="/assets/css/tailwind.css" />
-    <link rel="stylesheet" href="/assets/css/style.css" />
-    <script defer src="/assets/js/project-timeline.js"></script>
-    <script defer src="/assets/js/darkmode-toggle.js"></script>
-  </head>
-  <body class="bg-black text-white font-sans">
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ŞifreMini | MerYunCyber</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-black text-white font-sans">
 
-    <!-- 🔗 Navbar -->
-    <nav class="w-full p-4 flex justify-between items-center bg-neutral-900 shadow-md z-50">
-      <a href="/index.html" class="text-cyan-400 font-bold text-lg">MerYunCyber</a>
-      <a href="/projects/guvenlicebim.html" class="text-gray-300 hover:text-cyan-400">Next Project</a>
-    </nav>
+  <header class="p-6 text-center border-b border-gray-800">
+    <h1 class="text-3xl font-bold text-cyan-400">🔐 ŞifreMini</h1>
+    <p class="text-gray-400 mt-1">Yapay zekâ destekli, ultra güvenli parola yöneticisi.</p>
+  </header>
 
-    <!-- 🔐 Project Header -->
-    <section class="py-16 px-6 max-w-5xl mx-auto text-center">
-      <img src="/assets/images/sifremini.png" alt="ŞifreMini Logo" class="mx-auto w-32 mb-6 animate-fadeIn" />
-      <h2 class="text-4xl md:text-5xl font-bold text-cyan-400 mb-4 animate-fadeIn">ŞifreMini</h2>
-      <p class="text-gray-300 text-lg leading-relaxed animate-fadeIn delay-100 max-w-3xl mx-auto">
-        ŞifreMini is a lightweight, offline-first password manager designed for digital minimalists and privacy-conscious users.
-        Built to work without cloud sync, accounts, or tracking — it's your secure pocket notebook for the digital age.
+  <main class="p-6 max-w-3xl mx-auto space-y-10">
+    
+    <section class="fade-on-scroll">
+      <h2 class="text-xl font-semibold text-cyan-300 mb-2">🚀 Proje Tanımı</h2>
+      <p>
+        ŞifreMini, MerYunCyber tarafından geliştirilen yapay zekâ destekli bir şifre yöneticisidir. 
+        Tüm şifrelerinizi cihazda tutar, bulut sistemine bağımlı kalmadan güvenle saklar. 
+        Anahtar kelimeyle çağırma, güvenlik seviyesi ölçümü ve sahte parola üretimi gibi benzersiz özellikler içerir.
       </p>
     </section>
 
-    <!-- 🧭 Roadmap Section -->
-    <section class="bg-neutral-950 py-12 px-6">
-      <div class="max-w-4xl mx-auto">
-        <h3 class="text-2xl text-cyan-300 font-semibold mb-6 text-center">📌 Development Roadmap</h3>
-        <ul id="roadmapList" class="space-y-4 text-gray-300 text-lg">
-          <!-- Bu alan project-timeline.js tarafından doldurulacak -->
-        </ul>
+    <section class="fade-on-scroll">
+      <h2 class="text-xl font-semibold text-cyan-300 mb-2">🎯 Hedefler</h2>
+      <ul class="list-disc list-inside text-gray-300 space-y-2">
+        <li>Kullanıcının tüm şifrelerini yerel olarak koruma</li>
+        <li>İnternetsiz çalışabilme</li>
+        <li>Yapay zekâ ile parola kalitesi analizi</li>
+        <li>Sesli komut ve hızlı erişim</li>
+        <li>İstenirse verileri anında sıfırlama modu</li>
+      </ul>
+    </section>
+
+    <section class="fade-on-scroll">
+      <h2 class="text-xl font-semibold text-cyan-300 mb-3">🧭 Yol Haritası</h2>
+      <div id="project-timeline" class="space-y-2">
+        <!-- project-timeline.js ile dinamik olarak yüklenir -->
       </div>
     </section>
 
-    <!-- 📢 Support & Navigation -->
-    <section class="text-center py-12 space-y-6">
-      <a href="/support.html" class="bg-cyan-500 hover:bg-cyan-600 text-black font-bold py-3 px-6 rounded transition">
-        Support This Project
-      </a>
-      <br />
-      <a href="/projects/guvenlicebim.html" class="text-cyan-400 hover:underline">
-        → Next: GüvenliCebim
-      </a>
+    <section class="fade-on-scroll text-sm text-gray-500 mt-10">
+      <p>MerYunCyber tarafından geliştirilmiştir. Tüm hakları saklıdır.</p>
     </section>
 
-  </body>
-          </html>
+  </main>
+
+  <script src="/assets/js/project-timeline.js"></script>
+  <script src="/assets/js/scroll.js"></script>
+
+</body>
+  </html>
