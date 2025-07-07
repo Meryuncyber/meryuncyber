@@ -1,31 +1,84 @@
-// AI Terminal Element Seçimi
-const terminal = document.getElementById("ai-terminal");
-const input = document.getElementById("ai-input");
-const output = document.getElementById("ai-output");
+// ai-terminal.js — MerYunCyber yapay zeka terminal simülasyonu
 
-const responses = {
-  "help": "Available commands: help, mission, team, shifremeni, elif, exit",
-  "mission": "MerYunCyber builds security tools for the forgotten — accessible, local-first and AI-assisted.",
-  "team": "Founders: Yunus Taymur (Cybersecurity Architect) & Meryem Yücel (Social Strategist).",
-  "shifremeni": "ŞifreMini is a lightweight password manager — offline, fast, and deadly simple.",
-  "elif": "ELIF No EXIF is a metadata scrubber for privacy-conscious users. Fast, reliable, free.",
-  "exit": "Closing terminal... Stay safe out there.",
-  "": "Please enter a command. Type 'help' if you're lost."
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const terminal = document.getElementById("ai-terminal");
+  const inputField = document.getElementById("terminal-input");
+  const outputField = document.getElementById("terminal-output");
 
-// Komut Gönderildiğinde
-input.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    const command = input.value.trim().toLowerCase();
-    const response = responses[command] || "Unknown command. Type 'help' to see available commands.";
+  // Sahte komut yanıtları
+  const responses = {
+    help: [
+      "Available commands:",
+      "- help          → Show this help message",
+      "- about         → Learn about MerYunCyber",
+      "- projects      → List all current projects",
+      "- contact       → Show email address",
+      "- clear         → Clear the terminal"
+    ],
+    about: [
+      "MerYunCyber is a cybersecurity initiative founded by Yunus Taymur.",
+      "Focused on privacy, defense, and AI-powered tools for the modern world."
+    ],
+    projects: [
+      "- ŞifreMini       → AI-based password manager",
+      "- GüvenliCebim    → Smartphone security assistant",
+      "- Elif No EXIF    → Privacy-focused photo sanitizer",
+      "- Erişim Kalkanı  → Accessibility + security gateway"
+    ],
+    contact: [
+      "You can reach us at:",
+      "✉ meryuncyber@protonmail.com"
+    ],
+    clear: ["__clear__"]
+  };
+
+  // Yazma efekti
+  function typeOutput(lines, index = 0) {
+    if (index >= lines.length) return;
 
     const line = document.createElement("div");
-    line.innerHTML = `<span class="text-cyan-400">$ ${command}</span><br><span>${response}</span>`;
-    line.classList.add("mb-4", "animate-fadeIn");
+    line.classList.add("typed-line");
 
-    output.appendChild(line);
-    input.value = "";
-    terminal.scrollTop = terminal.scrollHeight;
+    outputField.appendChild(line);
+
+    let charIndex = 0;
+    function typeChar() {
+      if (charIndex < lines[index].length) {
+        line.textContent += lines[index][charIndex];
+        charIndex++;
+        setTimeout(typeChar, 20);
+      } else {
+        typeOutput(lines, index + 1);
+      }
+    }
+
+    // Özel "clear" komutu
+    if (lines[index] === "__clear__") {
+      outputField.innerHTML = "";
+      return;
+    }
+
+    typeChar();
   }
+
+  // Komut gönderildiğinde
+  inputField.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const command = inputField.value.trim().toLowerCase();
+      inputField.value = "";
+
+      const inputEcho = document.createElement("div");
+      inputEcho.textContent = "> " + command;
+      inputEcho.classList.add("terminal-input-echo");
+      outputField.appendChild(inputEcho);
+
+      if (responses.hasOwnProperty(command)) {
+        typeOutput(responses[command]);
+      } else {
+        typeOutput([`Unknown command: "${command}". Type 'help' to see available commands.`]);
+      }
+
+      terminal.scrollTop = terminal.scrollHeight; // Auto-scroll
+    }
+  });
 });
