@@ -1,35 +1,37 @@
-// 🔹 Sayfa yüklendiğinde en üste git
-window.scrollTo(0, 0);
+// scroll.js — MerYunCyber scroll animasyonlarını yönetir
 
-// 🔹 Scroll animasyonları için gözleme fonksiyonu
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("animate-fadeIn");
-      observer.unobserve(entry.target);
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  const faders = document.querySelectorAll(".fade-on-scroll");
+
+  const appearOptions = {
+    threshold: 0.15, // %15'i görünür olunca başlasın
+    rootMargin: "0px 0px -100px 0px"
+  };
+
+  const appearOnScroll = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target); // tekrar tekrar tetiklenmesin
+    });
+  }, appearOptions);
+
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
   });
-}, {
-  threshold: 0.2,
-});
 
-// 🔹 Fade animasyonuna sahip tüm öğeleri seç
-document.querySelectorAll(".fade-on-scroll").forEach((el) => {
-  observer.observe(el);
-});
-
-// 🔹 Scroll to top butonu (isteğe bağlı)
-const scrollTopBtn = document.getElementById("scroll-top-btn");
-if (scrollTopBtn) {
+  // Yukarı çık butonu
+  const scrollTopBtn = document.getElementById("scroll-top-btn");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
-      scrollTopBtn.classList.remove("hidden");
+      scrollTopBtn.classList.add("show");
     } else {
-      scrollTopBtn.classList.add("hidden");
+      scrollTopBtn.classList.remove("show");
     }
   });
 
-  scrollTopBtn.addEventListener("click", () => {
+  scrollTopBtn?.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-}
+});
