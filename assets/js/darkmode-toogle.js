@@ -1,26 +1,31 @@
-// 🌗 Tema geçiş butonu
-const toggleBtn = document.getElementById("darkmode-toggle");
+// darkmode-toggle.js — MerYunCyber tema geçişi kontrolü
 
-// 🌓 Tema durumu kontrolü
-function applyTheme(theme) {
-  if (theme === "light") {
-    document.documentElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-  } else {
-    document.documentElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  }
-}
-
-// 🧠 Sayfa yüklendiğinde tema yükle
 document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme") || "dark";
-  applyTheme(savedTheme);
-});
+  const toggleButton = document.getElementById("darkmode-toggle");
+  const htmlElement = document.documentElement;
+  const storageKey = "meryuncyber-theme";
 
-// 🔁 Butona tıklanınca geçiş yap
-toggleBtn.addEventListener("click", () => {
-  const current = localStorage.getItem("theme") || "dark";
-  const next = current === "dark" ? "light" : "dark";
-  applyTheme(next);
+  // Kullanıcının tercihi varsa uygula
+  const savedTheme = localStorage.getItem(storageKey);
+  if (savedTheme === "dark") {
+    htmlElement.classList.add("dark");
+  } else if (savedTheme === "light") {
+    htmlElement.classList.remove("dark");
+  } else {
+    // Sistem temasına göre varsayılan ayar
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    htmlElement.classList.toggle("dark", prefersDark);
+  }
+
+  // Butona tıklanınca tema geçişi
+  toggleButton?.addEventListener("click", () => {
+    const isDark = htmlElement.classList.contains("dark");
+    if (isDark) {
+      htmlElement.classList.remove("dark");
+      localStorage.setItem(storageKey, "light");
+    } else {
+      htmlElement.classList.add("dark");
+      localStorage.setItem(storageKey, "dark");
+    }
+  });
 });
