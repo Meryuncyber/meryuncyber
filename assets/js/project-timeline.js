@@ -1,58 +1,32 @@
-// Yol haritası verileri (İngilizce)
-const roadmap = [
-  {
-    icon: "💡",
-    title: "Ideation",
-    description: "Problem discovery and early brainstorming.",
-    date: "Jan 2025"
-  },
-  {
-    icon: "📝",
-    title: "Planning",
-    description: "Technical planning, architecture, and research.",
-    date: "Feb – Mar 2025"
-  },
-  {
-    icon: "🧪",
-    title: "Prototype",
-    description: "MVP development and initial testing.",
-    date: "Apr 2025"
-  },
-  {
-    icon: "🚀",
-    title: "Launch",
-    description: "First stable version and limited public release.",
-    date: "aug 2025"
-  },
-  {
-    icon: "🌍",
-    title: "Globalization",
-    description: "Localization, accessibility, and platform expansion.",
-    date: " Q4 2025"
-  },
-  {
-    icon: "🔒",
-    title: "Security Audit",
-    description: "Penetration tests and zero-day hardening.",
-    date: "Q4 2025"
-  }
-];
+// project-timeline.js — Yol haritasını emoji ile gösterir
 
-// HTML'e çizim işlemi
-const timelineContainer = document.getElementById("timeline");
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("project-timeline");
 
-roadmap.forEach((step, index) => {
-  const block = document.createElement("div");
-  block.className = "fade-on-scroll border-l-4 border-cyan-500 pl-4 mb-8";
+  if (!container) return;
 
-  block.innerHTML = `
-    <div class="flex items-center space-x-4 mb-2">
-      <div class="text-2xl">${step.icon}</div>
-      <h3 class="text-xl font-semibold text-cyan-300">${step.title}</h3>
-      <span class="text-sm text-gray-500">${step.date}</span>
-    </div>
-    <p class="text-gray-300">${step.description}</p>
-  `;
+  fetch("/data/roadmap.json")
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(step => {
+        const stepElement = document.createElement("div");
+        stepElement.classList.add("timeline-step", "fade-on-scroll");
 
-  timelineContainer.appendChild(block);
+        const emoji = document.createElement("span");
+        emoji.classList.add("emoji");
+        emoji.textContent = step.emoji;
+
+        const text = document.createElement("span");
+        text.classList.add("text");
+        text.textContent = step.text;
+
+        stepElement.appendChild(emoji);
+        stepElement.appendChild(text);
+        container.appendChild(stepElement);
+      });
+    })
+    .catch(err => {
+      console.error("Yol haritası verisi yüklenemedi:", err);
+      container.innerHTML = "<p class='text-red-500'>Yol haritası yüklenemedi.</p>";
+    });
 });
