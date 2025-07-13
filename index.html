@@ -1,59 +1,391 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MerYunCyber</title>
-  <!-- Tailwind CSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MerYunCyber - Invisible Protection for a Visible World</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to complement Tailwind CSS */
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .cyber-green { color: #00ffcc; }
+        .cyber-green-bg { background-color: #00ffcc; }
+        .glow { text-shadow: 0 0 8px #00ffcc, 0 0 12px #00ffcc, 0 0 20px #00ffcc; }
+        .hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .section-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 700;
+        }
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s, box-shadow 0.5s;
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 139, 253, 0.2);
+        }
+        .card-3d:hover {
+            transform: translateZ(20px) rotateX(5deg) rotateY(10deg);
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.2);
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .lang-switch .active {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+        .tech-node {
+            transition: transform 0.3s, filter 0.3s;
+        }
+        .tech-node:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px #00ffcc);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #0d1117;
+            border: 4px solid #00ffcc;
+        }
+        .timeline-line {
+            position: absolute;
+            left: -21px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: rgba(0, 255, 204, 0.3);
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body class="bg-black text-white scroll-smooth">
-  <!-- Header -->
-  <header class="flex justify-between items-center px-6 py-4 border-b border-gray-700">
-    <h1 class="text-2xl font-bold text-cyan-400">MerYunCyber</h1>
-    <button id="darkmode-toggle" class="text-sm hover:text-cyan-300">🌓 Toggle Theme</button>
-  </header>
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <canvas id="hero-canvas" class="hero-canvas"></canvas>
+        <div class="relative z-10 p-4">
+            <h1 class="text-4xl md:text-6xl font-black uppercase tracking-wider glow" data-en="MerYunCyber" data-tr="MerYunCyber">MerYunCyber</h1>
+            <p class="mt-4 text-lg md:text-2xl text-gray-300" data-en="Invisible Protection for a Visible World." data-tr="Görünür Dünya için Görünmez Koruma.">Invisible Protection for a Visible World.</p>
+            <p class="mt-2 text-md md:text-xl text-gray-400" data-en="Privacy is a right, not a luxury." data-tr="Mahremiyet bir lüks değil, bir haktır.">Privacy is a right, not a luxury.</p>
+        </div>
+        <div class="absolute top-5 right-5 z-20 lang-switch text-sm font-semibold">
+            <button id="lang-en" class="px-2 py-1 active">EN</button>
+            <span>/</span>
+            <button id="lang-tr" class="px-2 py-1">TR</button>
+        </div>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="text-center py-12 fade-on-scroll">
-    <h2 class="text-4xl font-extrabold text-cyan-300 mb-4 animate-fadeIn">Cybersecurity for Everyone</h2>
-    <p class="max-w-xl mx-auto text-gray-400">MerYunCyber develops privacy-first tools for ordinary people — fast, local, and secure.</p>
-  </section>
+    <main class="relative z-10">
+        <!-- Apps Section -->
+        <section id="apps" class="py-20 px-4">
+            <div class="container mx-auto">
+                <h2 class="section-title text-3xl md:text-4xl text-center mb-16 cyber-green" data-en="Our AI-Powered Shield" data-tr="Yapay Zeka Destekli Kalkanımız">Our AI-Powered Shield</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" style="perspective: 1000px;">
+                    <!-- Elif Card -->
+                    <div class="card-3d p-6 rounded-lg scroll-reveal">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 cyber-green mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 16m12-4a2 2 0 11-4 0 2 2 0 014 0zM3 10h.01M21 10h.01M12 21a9 9 0 110-18 9 9 0 010 18z" /></svg>
+                            <h3 class="text-2xl font-bold">Elif – No EXIF</h3>
+                        </div>
+                        <p class="text-gray-400" data-en="A privacy-focused app that removes hidden EXIF metadata from photos." data-tr="Fotoğraflardaki gizli EXIF meta verilerini temizleyen gizlilik odaklı bir uygulama.">A privacy-focused app that removes hidden EXIF metadata from photos.</p>
+                    </div>
+                    <!-- GüvenliCebim Card -->
+                    <div class="card-3d p-6 rounded-lg scroll-reveal" style="transition-delay: 0.2s;">
+                         <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 cyber-green mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                            <h3 class="text-2xl font-bold">GüvenliCebim</h3>
+                        </div>
+                        <p class="text-gray-400" data-en="A mobile security layer that detects app permission abuse and real-time threats." data-tr="Uygulama izin suistimallerini ve gerçek zamanlı tehditleri tespit eden mobil güvenlik katmanı.">A mobile security layer that detects app permission abuse and real-time threats.</p>
+                    </div>
+                    <!-- Erişim Kalkanı Card -->
+                    <div class="card-3d p-6 rounded-lg scroll-reveal" style="transition-delay: 0.4s;">
+                         <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 cyber-green mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                            <h3 class="text-2xl font-bold">Erişim Kalkanı</h3>
+                        </div>
+                        <p class="text-gray-400" data-en="A security app for users with disabilities, focusing on accessible encryption." data-tr="Engelli kullanıcılar için ekran okuyucu destekli ve erişilebilir şifreleme sunan güvenlik uygulaması.">A security app for users with disabilities, focusing on accessible encryption.</p>
+                    </div>
+                    <!-- ŞifreMini Card -->
+                    <div class="card-3d p-6 rounded-lg scroll-reveal" style="transition-delay: 0.6s;">
+                         <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 cyber-green mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            <h3 class="text-2xl font-bold">ŞifreMini</h3>
+                        </div>
+                        <p class="text-gray-400" data-en="An AI-assisted offline password manager with smart strength analysis." data-tr="Akıllı güç analizi sunan, yapay zeka destekli çevrimdışı şifre yöneticisi.">An AI-assisted offline password manager with smart strength analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- AI Terminal -->
-  <section class="max-w-2xl mx-auto my-12 fade-on-scroll">
-    <div class="bg-neutral-900 p-6 rounded-lg shadow-lg">
-      <h3 class="text-xl text-cyan-400 font-bold mb-4">🧠 AI Terminal</h3>
-      <div id="ai-terminal" class="h-48 overflow-y-auto p-4 border border-gray-700 rounded text-sm bg-black">
-        <div id="ai-output"></div>
-      </div>
-      <input id="ai-input" type="text" placeholder="Type a command..." class="w-full mt-4 p-2 bg-black border border-gray-700 text-white rounded" />
-    </div>
-  </section>
+        <!-- Technical Architecture Section -->
+        <section id="tech" class="py-20 px-4 bg-[#161b22]">
+            <div class="container mx-auto text-center">
+                <h2 class="section-title text-3xl md:text-4xl mb-4 cyber-green" data-en="Technical Architecture" data-tr="Teknik Mimarimiz">Technical Architecture</h2>
+                <p class="max-w-3xl mx-auto mb-16 text-gray-400" data-en="Our applications are built on a robust, privacy-first foundation. We leverage modern, secure technologies to ensure your data remains yours, always." data-tr="Uygulamalarımız, gizlilik öncelikli ve sağlam bir temel üzerine inşa edilmiştir. Verilerinizin daima size ait kalmasını sağlamak için modern ve güvenli teknolojilerden yararlanıyoruz.">Our applications are built on a robust, privacy-first foundation. We leverage modern, secure technologies to ensure your data remains yours, always.</p>
+                <div class="relative max-w-4xl mx-auto p-8">
+                    <!-- Diagram Lines -->
+                    <!-- This is a simplified visual representation. A more complex interactive version would use JS/SVG. -->
+                    <div class="absolute top-1/2 left-0 w-full h-px bg-gray-700"></div>
+                    <div class="absolute left-1/2 top-0 h-full w-px bg-gray-700"></div>
 
-  <!-- Project Roadmap -->
-  <section class="max-w-4xl mx-auto my-16 px-6 fade-on-scroll">
-    <h3 class="text-2xl font-bold text-cyan-400 mb-6">🗺️ Project Timeline</h3>
-    <div id="timeline" class="space-y-6"></div>
-  </section>
+                    <div class="grid grid-cols-3 grid-rows-3 gap-y-16 items-center">
+                        <div class="tech-node col-start-1 row-start-1 text-center">
+                            <img src="https://placehold.co/80x80/0d1117/00ffcc?text=Flutter" class="mx-auto mb-2 rounded-full border-2 border-cyan-400">
+                            <p class="font-bold">Flutter</p>
+                            <p class="text-sm text-gray-400" data-en="Cross-Platform" data-tr="Çapraz Platform">Cross-Platform</p>
+                        </div>
+                        <div class="tech-node col-start-2 row-start-1 text-center">
+                            <img src="https://placehold.co/80x80/0d1117/00ffcc?text=Local+AI" class="mx-auto mb-2 rounded-full border-2 border-cyan-400">
+                            <p class="font-bold" data-en="Local AI" data-tr="Yerel Yapay Zeka">Local AI</p>
+                            <p class="text-sm text-gray-400" data-en="On-Device Processing" data-tr="Cihaz İçi İşleme">On-Device Processing</p>
+                        </div>
+                        <div class="tech-node col-start-3 row-start-1 text-center">
+                            <img src="https://placehold.co/80x80/0d1117/00ffcc?text=EXIF" class="mx-auto mb-2 rounded-full border-2 border-cyan-400">
+                            <p class="font-bold" data-en="EXIF Tools" data-tr="EXIF Araçları">EXIF Tools</p>
+                            <p class="text-sm text-gray-400" data-en="Metadata Parsing" data-tr="Metaveri Ayrıştırma">Metadata Parsing</p>
+                        </div>
 
-  <!-- Scroll to Top Button -->
-  <button id="scroll-top-btn" class="hidden fixed bottom-5 right-5 bg-cyan-500 text-black px-4 py-2 rounded-xl shadow-lg">
-    ↑ Top
-  </button>
+                        <div class="tech-node col-start-1 row-start-3 text-center">
+                            <img src="https://placehold.co/80x80/0d1117/00ffcc?text=AES-256" class="mx-auto mb-2 rounded-full border-2 border-cyan-400">
+                            <p class="font-bold">AES-256</p>
+                            <p class="text-sm text-gray-400" data-en="Military-Grade" data-tr="Askeri Düzey">Military-Grade</p>
+                        </div>
+                        <div class="tech-node col-start-2 row-start-2 text-center scale-125">
+                            <div class="p-4 bg-gray-800 rounded-lg border border-cyan-400 shadow-lg shadow-cyan-500/20">
+                                <h3 class="text-xl font-bold cyber-green" data-en="User Device" data-tr="Kullanıcı Cihazı">User Device</h3>
+                                <p class="text-sm text-gray-300" data-en="Your Secure Zone" data-tr="Güvenli Alanınız">Your Secure Zone</p>
+                            </div>
+                        </div>
+                        <div class="tech-node col-start-3 row-start-3 text-center">
+                            <img src="https://placehold.co/80x80/0d1117/00ffcc?text=Offline" class="mx-auto mb-2 rounded-full border-2 border-cyan-400">
+                            <p class="font-bold" data-en="Offline Storage" data-tr="Çevrimdışı Depolama">Offline Storage</p>
+                            <p class="text-sm text-gray-400" data-en="No Cloud Sync" data-tr="Bulut Senkronizasyonu Yok">No Cloud Sync</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer class="text-center py-6 text-gray-600 text-sm border-t border-gray-800">
-    © 2025 MerYunCyber. Built by Yunus Taymur.
-  </footer>
+        <!-- Founder Story Section -->
+        <section id="story" class="py-20 px-4">
+            <div class="container mx-auto">
+                <h2 class="section-title text-3xl md:text-4xl text-center mb-16 cyber-green" data-en="Founder's Journey" data-tr="Kurucunun Yolculuğu">Founder's Journey</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="w-full md:w-1/2">
+                        <div class="relative pl-8">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-item relative mb-12 scroll-reveal">
+                                <h4 class="font-bold text-xl mb-1" data-en="The Spark" data-tr="Kıvılcım">The Spark</h4>
+                                <p class="text-gray-400" data-en="Born from a passion for digital freedom and privacy, the idea for MerYunCyber was ignited by the growing need for accessible security tools." data-tr="Dijital özgürlük ve mahremiyet tutkusundan doğan MerYunCyber fikri, erişilebilir güvenlik araçlarına duyulan artan ihtiyaçla ateşlendi.">Born from a passion for digital freedom and privacy, the idea for MerYunCyber was ignited by the growing need for accessible security tools.</p>
+                            </div>
+                            <div class="timeline-item relative mb-12 scroll-reveal">
+                                <h4 class="font-bold text-xl mb-1" data-en="The Grind" data-tr="Mücadele">The Grind</h4>
+                                <p class="text-gray-400" data-en="Developed without a proper computer, often sacrificing personal needs. This journey is a testament to dedication, fueled by belief in a mission to protect everyone." data-tr="Yeterli bir bilgisayar olmadan, genellikle kişisel ihtiyaçlardan feragat edilerek geliştirildi. Bu yolculuk, herkesi koruma misyonuna olan inançla beslenen bir adanmışlığın kanıtıdır.">Developed without a proper computer, often sacrificing personal needs. This journey is a testament to dedication, fueled by belief in a mission to protect everyone.</p>
+                            </div>
+                             <div class="timeline-item relative scroll-reveal">
+                                <h4 class="font-bold text-xl mb-1" data-en="The Vision" data-tr="Vizyon">The Vision</h4>
+                                <p class="text-gray-400" data-en="To build a future where privacy is integrated into every digital experience, empowering users, especially the most vulnerable, with tools they can trust." data-tr="Mahremiyetin her dijital deneyime entegre edildiği, başta en savunmasız olanlar olmak üzere tüm kullanıcıları güvenebilecekleri araçlarla güçlendiren bir gelecek inşa etmek.">To build a future where privacy is integrated into every digital experience, empowering users, especially the most vulnerable, with tools they can trust.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-2xl shadow-cyan-500/10 border border-gray-700">
+                             <img src="https://placehold.co/600x400/0d1117/1f2937?text=Founder+Story+Visual" alt="Founder Story Visual" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Scripts -->
-  <script src="assets/js/scroll.js" defer></script>
-  <script src="assets/js/darkmode-toggle.js" defer></script>
-  <script src="assets/js/ai-terminal.js" defer></script>
-  <script src="assets/js/project-timeline.js" defer></script>
+        <!-- App Previews Section -->
+        <section id="previews" class="py-20 px-4 bg-[#161b22]">
+            <div class="container mx-auto">
+                <h2 class="section-title text-3xl md:text-4xl text-center mb-16 cyber-green" data-en="See Them In Action" data-tr="Uygulamaları Görün">See Them In Action</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="scroll-reveal">
+                        <h3 class="text-2xl font-bold mb-4">Elif – No EXIF</h3>
+                        <img src="https://placehold.co/600x400/0d1117/00ffcc?text=Elif+App+Flow" class="rounded-lg border-2 border-gray-700" alt="Elif App Preview">
+                    </div>
+                    <div class="scroll-reveal">
+                        <h3 class="text-2xl font-bold mb-4">GüvenliCebim</h3>
+                        <img src="https://placehold.co/600x400/0d1117/00ffcc?text=GüvenliCebim+App+Flow" class="rounded-lg border-2 border-gray-700" alt="GüvenliCebim App Preview">
+                    </div>
+                    <div class="scroll-reveal">
+                        <h3 class="text-2xl font-bold mb-4">Erişim Kalkanı</h3>
+                        <img src="https://placehold.co/600x400/0d1117/00ffcc?text=Erişim+Kalkanı+App+Flow" class="rounded-lg border-2 border-gray-700" alt="Erişim Kalkanı App Preview">
+                    </div>
+                    <div class="scroll-reveal">
+                        <h3 class="text-2xl font-bold mb-4">ŞifreMini</h3>
+                        <img src="https://placehold.co/600x400/0d1117/00ffcc?text=ŞifreMini+App+Flow" class="rounded-lg border-2 border-gray-700" alt="ŞifreMini App Preview">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA & Support Section -->
+        <section id="contact" class="py-20 px-4">
+            <div class="container mx-auto text-center">
+                <h2 class="section-title text-3xl md:text-4xl mb-4 cyber-green" data-en="Join Our Mission" data-tr="Misyonumuza Katılın">Join Our Mission</h2>
+                <p class="max-w-2xl mx-auto mb-8 text-gray-400" data-en="We are seeking partners, contributors, and funders who believe in a secure and private digital future for all. Let's build it together." data-tr="Herkes için güvenli ve özel bir dijital geleceğe inanan ortaklar, katkıda bulunanlar ve yatırımcılar arıyoruz. Gelin bunu birlikte inşa edelim.">We are seeking partners, contributors, and funders who believe in a secure and private digital future for all. Let's build it together.</p>
+                <div class="bg-[#161b22] inline-block p-4 rounded-lg border border-gray-700">
+                    <a href="mailto:meryuncyber@protonmail.com" class="text-lg font-mono tracking-wider cyber-green hover:text-white transition-colors">meryuncyber@protonmail.com</a>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-2xl font-bold mb-4" data-en="Support the Mission" data-tr="Misyonu Destekleyin">Support the Mission</h3>
+                    <p class="max-w-xl mx-auto mb-6 text-gray-400" data-en="Your donation directly funds development, server costs, and our ability to keep these tools free and accessible." data-tr="Bağışınız doğrudan geliştirmeyi, sunucu maliyetlerini ve bu araçları ücretsiz ve erişilebilir tutma yeteneğimizi finanse eder.">Your donation directly funds development, server costs, and our ability to keep these tools free and accessible.</p>
+                    <button class="cyber-green-bg text-[#0d1117] font-bold py-3 px-8 rounded-lg hover:bg-opacity-80 transition-all transform hover:scale-105" data-en="Donate Now" data-tr="Şimdi Bağış Yap">Donate Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#161b22] py-6 px-4 text-center text-gray-500">
+        <p>&copy; 2025 MerYunCyber. <span data-en="All rights reserved." data-tr="Tüm hakları saklıdır.">All rights reserved.</span></p>
+        <p class="text-sm mt-1" data-en="We serve the voiceless and protect the unseen." data-tr="Sessizlerin sesi olur, görünmeyeni koruruz.">We serve the voiceless and protect the unseen.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 3D Hero Canvas Animation ---
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry;
+            const particlesCnt = 5000;
+            const posArray = new Float32Array(particlesCnt * 3);
+            for (let i = 0; i < particlesCnt * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 5;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.005,
+                color: 0x00ffcc
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Digital Shield
+            const shieldGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const shieldMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffcc,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            const shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+            scene.add(shield);
+
+            camera.position.z = 3;
+
+            // Mouse movement
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            const clock = new THREE.Clock();
+            const animate = function () {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                particlesMesh.rotation.y = -0.1 * elapsedTime;
+                shield.rotation.x = 0.05 * elapsedTime;
+                shield.rotation.y = 0.05 * elapsedTime;
+
+                // Parallax effect
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+                camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            });
+
+            // --- Scroll Reveal Animation ---
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (
+                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+            const displayScrollElement = (element) => {
+                element.classList.add('visible');
+            };
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    }
+                });
+            };
+            window.addEventListener('scroll', () => {
+                handleScrollAnimation();
+            });
+            // Initial check
+            handleScrollAnimation();
+
+            // --- Language Switcher ---
+            const langEnBtn = document.getElementById('lang-en');
+            const langTrBtn = document.getElementById('lang-tr');
+            const translatableElements = document.querySelectorAll('[data-en]');
+
+            const switchLanguage = (lang) => {
+                translatableElements.forEach(el => {
+                    el.textContent = el.dataset[lang];
+                });
+                if (lang === 'en') {
+                    langEnBtn.classList.add('active');
+                    langTrBtn.classList.remove('active');
+                    document.documentElement.lang = 'en';
+                } else {
+                    langTrBtn.classList.add('active');
+                    langEnBtn.classList.remove('active');
+                    document.documentElement.lang = 'tr';
+                }
+            };
+
+            langEnBtn.addEventListener('click', () => switchLanguage('en'));
+            langTrBtn.addEventListener('click', () => switchLanguage('tr'));
+        });
+    </script>
 </body>
-    </html>
+</html>
