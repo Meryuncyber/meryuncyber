@@ -1,6 +1,8 @@
 # MerYunCyber 🔐  
 **Digital Privacy Tools for the Forgotten Majority**
 
+website: https://meryuncyber.github.io/meryuncyber/
+
 MerYunCyber is a social impact-driven cybersecurity initiative building accessible, local-first and AI-powered digital privacy tools.  
 We focus on users that are usually excluded: activists, the elderly, women under surveillance, and individuals with disabilities.
 
