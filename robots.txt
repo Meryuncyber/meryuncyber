@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://meryuncyber.github.io/meryuncyber/sitemap.xml
+Sitemap:
+https://meryuncyber.github.io/meryuncyber/sitemap.xml
